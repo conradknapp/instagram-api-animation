@@ -1,0 +1,12 @@
+.view {
+  text-align: center;
+}
+
+.main-image {
+  width: 70vw;
+}
+
+.image-caption {
+  font-weight: 200;
+  font-size: 1em;
+}
