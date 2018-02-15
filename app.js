@@ -69,16 +69,6 @@ var changeTextColor = (event, obj) => {
   } else if (alt.indexOf("Bridge") !== -1) {
     setTimeout(() => (imageContainer.style.color = "yellow"), 300);
   }
-  // let alt = event.target.alt;
-  // if (!alt) return;
-  // let textColor = document.getElementById("text").style.color;
-  // console.log(alt);
-  // if (alt.indexOf("Tree") !== -1) {
-  //   console.log(alt);
-  //   textColor = "blue";
-  // } else if (alt.indexOf("Woman") !== -1) {
-  //   textColor = "yellow";
-  // }
 };
 
 var addClass = (event, obj, state) => {
