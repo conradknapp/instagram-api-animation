@@ -2,17 +2,24 @@ const REQUEST_URL =
   "https://api.instagram.com/v1/users/self/media/recent/?access_token=7095386667.1677ed0.27c4cb0a84814f4a90d01335a6cdef62";
 
 const imageContainer = document.querySelector("#images");
+const images = document.getElementsByTagName("li");
 
 fetch(REQUEST_URL)
   .then(res => res.json())
   .then(({ data }) => {
     [...data].map(el => {
       // prettier-ignore
-      imageContainer.innerHTML = `
-        <div class="view">
-          <img src=${el.images.standard_resolution.url} class="main-image" />
-          <h4 class="image-caption">${el.caption.text}</h4>
-        </div>
+      imageContainer.innerHTML += `
+        <li>
+          <a class="main-image">
+           <img src=${el.images.standard_resolution.url} alt=${
+        JSON.stringify(el.caption.text)
+      } />
+          </a>
+          <div class="caption">
+            <h4 id="text">${el.caption.text}</h4>
+          </div>
+        </li>
       `;
 
       addImageHandlers();
@@ -24,11 +31,12 @@ var addImageHandlers = () => {
 
   [...images].map(image => {
     image.addEventListener("mouseover", function(event) {
-      getMouseDirection(event, this);
+      changeTextColor(event, this);
+      addClass(event, this, "in");
     });
 
     image.addEventListener("mouseout", function(event) {
-      getMouseDirection(event, this);
+      addClass(event, this, "out");
     });
   });
 };
@@ -42,9 +50,49 @@ var getMouseDirection = (event, obj) => {
 
   // prettier-ignore
   const direction =
-    d === 0 ? "down" : 
-    d === 1 ? "left" : 
-    d === 2 ? "up" : 
-    d === 3 ? "right" : null;
-  console.log(direction);
+    d === 0 ? "up" : 
+    d === 1 ? "right" : 
+    d === 2 ? "down" : 
+    d === 3 ? "left" : null;
+  return direction;
 };
+
+var changeTextColor = (event, obj) => {
+  var alt = obj.children[0].alt;
+
+  if (alt.indexOf("Water") !== -1) {
+    setTimeout(() => (imageContainer.style.color = "orange"), 300);
+  } else if (alt.indexOf("Tree") !== -1) {
+    setTimeout(() => (imageContainer.style.color = "navy"), 300);
+  } else if (alt.indexOf("parasol") !== -1) {
+    setTimeout(() => (imageContainer.style.color = "white"), 300);
+  } else if (alt.indexOf("Bridge") !== -1) {
+    setTimeout(() => (imageContainer.style.color = "yellow"), 300);
+  }
+  // let alt = event.target.alt;
+  // if (!alt) return;
+  // let textColor = document.getElementById("text").style.color;
+  // console.log(alt);
+  // if (alt.indexOf("Tree") !== -1) {
+  //   console.log(alt);
+  //   textColor = "blue";
+  // } else if (alt.indexOf("Woman") !== -1) {
+  //   textColor = "yellow";
+  // }
+};
+
+var addClass = (event, obj, state) => {
+  obj = obj.parentNode;
+  obj.className = "";
+  var direction = getMouseDirection(event, obj);
+  var animationName = `${state}-${direction}`;
+  obj.className = animationName;
+};
+
+[...images].map((el, i) => {
+  if (i >= 0 && i <= 3) {
+    el.style.animationDelay = `${i + 1}00ms`;
+  } else {
+    el.style.animationDelay = `${i - 3}00ms`;
+  }
+});
