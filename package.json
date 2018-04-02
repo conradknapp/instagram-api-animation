@@ -1,0 +1,14 @@
+{
+  "name": "instagram-api-animation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:conradknapp/instagram-api-animation.git",
+  "scripts": {
+    "start": "http-server -c-1 -p 8080"
+  },
+  "author": "Conrad Knapp <conrad.knapp@bc.edu>",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}
